@@ -15,7 +15,7 @@ os.chdir('C:/Users/vicsalcas/Desktop/VIC/PhD/MoCap/Calibration/Data')
 
 # Set height and markers
 Height = 'y2'
-Marker1 = 4
+Marker1 = 2
 Marker2 = 6
 
 # Create subplot for the desired height
@@ -24,6 +24,15 @@ fig.delaxes(axs[0][0])
 fig.delaxes(axs[0][2])
 fig.delaxes(axs[2][0])
 fig.delaxes(axs[2][2])
+
+# For plot
+def subplot_position(x):
+    if x == 0:
+        return 2
+    elif x == 1:
+        return 1
+    elif x == 2:
+        return 0
 
 for file in glob.glob('*.csv'):
     
@@ -65,7 +74,7 @@ for file in glob.glob('*.csv'):
         Mi = 'Marker'+str(Marker1)
         Mj = 'Marker'+str(Marker2)
         d = np.sqrt((pd.to_numeric(df[Mi+'X'])-pd.to_numeric(df[Mj+'X']))**2+(pd.to_numeric(df[Mi+'Y'])-pd.to_numeric(df[Mj+'Y']))**2+(pd.to_numeric(df[Mi+'Z'])-pd.to_numeric(df[Mj+'Z']))**2)
-        axs[int(file[1]),int(file[5])].plot(time,d)
-        axs[int(file[1]),int(file[5])].set_title('(x,z) = (' + file[1] + ',' + file[5] + ')')
+        axs[subplot_position(int(file[5])),subplot_position(int(file[1]))].plot(time,d)
+        axs[subplot_position(int(file[5])),subplot_position(int(file[1]))].set_title('(x,z) = (' + str(int(file[1])-1) + ',' + str(int(file[5])-1) + ') m')
 
 plt.show()
